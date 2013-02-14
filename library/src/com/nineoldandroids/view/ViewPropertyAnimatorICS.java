@@ -1,10 +1,12 @@
 package com.nineoldandroids.view;
 
-import java.lang.ref.WeakReference;
-
+import android.animation.Animator;
 import android.view.View;
 import android.view.animation.Interpolator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 class ViewPropertyAnimatorICS extends ViewPropertyAnimator {
     /**
@@ -16,10 +18,13 @@ class ViewPropertyAnimatorICS extends ViewPropertyAnimator {
     /**
      * A WeakReference holding the native implementation of ViewPropertyAnimator
      */
-    private final WeakReference<android.view.ViewPropertyAnimator> mNative;
+    protected final WeakReference<android.view.ViewPropertyAnimator> mNative;
+
+    private final WeakReference<View> mView;
 
     ViewPropertyAnimatorICS(View view) {
         mNative = new WeakReference<android.view.ViewPropertyAnimator>(view.animate());
+        mView = new WeakReference<View>(view);
     }
 
     @Override
@@ -293,6 +298,16 @@ class ViewPropertyAnimatorICS extends ViewPropertyAnimator {
         if (n != null) {
             n.alphaBy(value);
         }
+        return this;
+    }
+
+    @Override
+    public ViewPropertyAnimator withLayer() {
+        final View v = mView.get();
+        if (v != null) {
+            v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
+
         return this;
     }
 }

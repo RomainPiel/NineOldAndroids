@@ -343,4 +343,6 @@ public abstract class ViewPropertyAnimator {
      * @return This object, allowing calls to methods in this class to be chained.
      */
     public abstract ViewPropertyAnimator alphaBy(float value);
+
+    public abstract ViewPropertyAnimator withLayer();
 }

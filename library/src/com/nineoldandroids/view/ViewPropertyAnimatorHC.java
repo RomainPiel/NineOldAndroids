@@ -16,14 +16,15 @@
 
 package com.nineoldandroids.view;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 import android.view.View;
 import android.view.animation.Interpolator;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
 
@@ -719,5 +720,16 @@ class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
                 v.invalidate(/*alphaHandled*/);
             }
         }
+    }
+
+    @Override
+    public ViewPropertyAnimator withLayer() {
+        final View v = mView.get();
+        if (v != null) {
+            v.setLayerType(v.getLayerType(), null);
+            v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
+
+        return this;
     }
 }
